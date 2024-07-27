@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced Card Builder</title>
+    <style>
+      .card {
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        margin-top: 20px;
+      }
+
+      .card.simple {
+        border: 1px solid #ddd;
+      }
+
+      .card.detailed {
+        border: 2px solid #007bff;
+        border-radius: 12px;
+        padding: 15px;
+        background-color: #f8f9fa;
+      }
+
+      .card img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .card-title,
+      .card-description,
+      .card-button {
+        margin: 10px 0;
+      }
+
+      .card-button {
+        text-decoration: none;
+        color: #007bff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Advanced Card Builder</h1>
+
+    <label for="cardType">Choose card type:</label>
+    <select id="cardType">
+      <option value="simple">Simple</option>
+      <option value="detailed">Detailed</option>
+    </select>
+
+    <label for="elementType">Add element:</label>
+    <select id="elementType">
+      <option value="title">Title</option>
+      <option value="description">Description</option>
+      <option value="image">Image</option>
+      <option value="button">Button</option>
+    </select>
+
+    <label for="elementContent">Content:</label>
+    <input type="text" id="elementContent" placeholder="Enter content" />
+
+    <button id="addElement">Add Element</button>
+    <button id="buildCard">Build Card</button>
+    <button id="resetCard">Reset Card</button>
+
+    <div id="cardContainer"></div>
+
+    <script src="dist/builder/CreateCard.js"></script>
+  </body>
+</html>
