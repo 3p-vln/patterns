@@ -2,7 +2,7 @@ interface IPrototype {
   primitive: any;
   component: HTMLElement | null;
   circularReference: ComponentWithBackReference | null;
-  clone(): this;
+  clone(): IPrototype;
 }
 
 interface IComponentWithBackReference {
@@ -14,7 +14,7 @@ class Prototype implements IPrototype {
   public component: HTMLElement | null = null;
   public circularReference: ComponentWithBackReference | null = null;
 
-  public clone(): this {
+  public clone(): IPrototype {
     const clone = Object.create(this) as Prototype;
 
     if (this.component) {
@@ -25,7 +25,7 @@ class Prototype implements IPrototype {
       clone.circularReference = new ComponentWithBackReference(clone);
     }
 
-    return clone as this;
+    return clone;
   }
 }
 
@@ -45,9 +45,7 @@ widgetPrototype.component.innerHTML = `
     <div class="content">Default content goes here.</div>
     <button class="edit-button">Edit</button>
 `;
-widgetPrototype.circularReference = new ComponentWithBackReference(
-  widgetPrototype
-);
+widgetPrototype.circularReference = new ComponentWithBackReference(widgetPrototype);
 
 function renderWidget(prototype: IPrototype) {
   const widgetContainer = document.getElementById("widget-container");
@@ -80,10 +78,13 @@ document
   ?.addEventListener("click", () => {
     const widgetContainer = document.getElementById("widget-container");
     const lastWidget = widgetContainer?.lastElementChild as HTMLElement | null;
+
     if (lastWidget) {
-      const prototype = widgetPrototype.circularReference?.prototype;
-      if (prototype) {
-        const clonedWidget = prototype.clone();
+      // Retrieve the prototype associated with the last widget
+      const lastWidgetPrototype = (lastWidget as any).__proto__;
+      if (lastWidgetPrototype) {
+        // Clone the prototype of the last widget
+        const clonedWidget = lastWidgetPrototype.clone();
         renderWidget(clonedWidget);
       }
     }

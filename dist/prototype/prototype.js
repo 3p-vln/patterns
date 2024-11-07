@@ -56,15 +56,14 @@ function renderWidget(prototype) {
 }
 (_a = document
     .getElementById("clone-widget-button")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
-    var _a;
     const widgetContainer = document.getElementById("widget-container");
     const lastWidget = widgetContainer === null || widgetContainer === void 0 ? void 0 : widgetContainer.lastElementChild;
     if (lastWidget) {
-        const prototype = (_a = widgetPrototype.circularReference) === null || _a === void 0 ? void 0 : _a.prototype;
-        if (prototype) {
-            const clonedWidget = prototype.clone();
-            renderWidget(clonedWidget);
-        }
+        const prototype = lastWidget.cloneNode(true);
+        const newPrototype = new Prototype();
+        newPrototype.component = prototype;
+        newPrototype.circularReference = new ComponentWithBackReference(newPrototype);
+        renderWidget(newPrototype);
     }
 });
 renderWidget(widgetPrototype);
